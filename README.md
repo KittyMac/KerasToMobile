@@ -1,2 +1,3 @@
-# KerasToTFLite
-simple example to convert a keras h5 model to a tflite file in preparation for inference on android
+# KerasToMobile
+
+A simple script to handle converting a keras .h5 file to both .tflite and .mlmodel.

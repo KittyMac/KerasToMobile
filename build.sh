@@ -7,47 +7,30 @@ unamestr=`uname`
 
 priv_virtualenv() {
 	
-	if [ $unamestr = "Linux" ]
-	then
-		sudo apt install -y python3-pip
-	else
-		brew install python3
-	fi
+	# Note: we're using python 3.5 because coreml tools doesn't work with 3.7 yet...
+	
+	# https://github.com/sashkab/homebrew-python
+	brew install sashkab/python/python35
 	
 	# create the virtualenv if it does not exist
 	if [ ! -d "modelConverter.env" ]; then
 		pip3 install --upgrade pip
 		pip3 install virtualenv
-		virtualenv -p python3 modelConverter.env
+		virtualenv -p python3.5 modelConverter.env
 	fi
 	
 	# '.' command is the same as 'source'
 	. ./modelConverter.env/bin/activate
 }
 
-priv_install_linux () {
-	echo "TBD"
-}
-
-priv_install_mac () {
-	echo "TBD"
-}
-
 priv_install () {
-	
 	priv_virtualenv
-	
-	if [ $unamestr = "Linux" ]
-	then
-		priv_install_linux
-	else
-		priv_install_mac
-	fi
-	
+		
 	# install other dependencies
 	pip3 install h5py
-	pip install keras
-	pip install tensorflow
+	pip3 install keras
+	pip3 install tensorflow
+	pip3 install -U coremltools
 }
 
 
@@ -56,7 +39,7 @@ priv_convert_tflite () {
 }
 
 priv_convert_mlmodel () {
-	echo "TBD"
+	python coreml.py $1 $2
 }
 
 priv_convert () {
